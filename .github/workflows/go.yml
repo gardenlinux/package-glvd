@@ -59,7 +59,7 @@ jobs:
       - build
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/download-artifact@v5
+    - uses: actions/download-artifact@v6
     - run: cat /etc/os-release
     - run: ls -lR
     - run: chmod +x glvd-client/glvd-client
