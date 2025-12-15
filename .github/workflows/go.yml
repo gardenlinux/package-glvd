@@ -11,10 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
     - name: Set up Go
-      uses: actions/setup-go@v6
+      uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
       with:
         go-version: '1.23'
 
@@ -24,7 +24,7 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
       with:
         name: glvd-client
         path: glvd-client
@@ -34,10 +34,10 @@ jobs:
     env:
       GOARCH: arm64
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
     - name: Set up Go
-      uses: actions/setup-go@v6
+      uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
       with:
         go-version: '1.23'
 
@@ -47,7 +47,7 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
       with:
         name: glvd-client-arm
         path: glvd-client
@@ -58,8 +58,8 @@ jobs:
     needs:
       - build
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/download-artifact@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
     - run: cat /etc/os-release
     - run: ls -lR
     - run: chmod +x glvd-client/glvd-client
