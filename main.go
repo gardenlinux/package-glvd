@@ -90,6 +90,7 @@ type payload struct {
 func getCvesForPackageList(dpkgSourcePackages []string, gardenLinuxVersion string) []sourcePackageCve {
 	client := &http.Client{}
 	requestPayload, _ := json.Marshal(payload{PackageNames: dpkgSourcePackages})
+	println(string(requestPayload))
 	req, err := http.NewRequest("PUT", "https://security.gardenlinux.org/v1/cves/"+gardenLinuxVersion+"/packages?sortBy=cveId&sortOrder=ASC", bytes.NewBuffer(requestPayload))
 	if err != nil {
 		log.Fatal(err)
@@ -109,7 +110,7 @@ func getCvesForPackageList(dpkgSourcePackages []string, gardenLinuxVersion strin
 	var results []sourcePackageCve
 	err = json.Unmarshal(bodyText, &results)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err, string(bodyText))
 	}
 	return results
 }
