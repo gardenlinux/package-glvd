@@ -101,43 +101,49 @@ func getCvesForPackageList(dpkgSourcePackages []string, gardenLinuxVersion strin
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		log.Fatalf("HTTP request failed with status code %d: %s", resp.StatusCode, http.StatusText(resp.StatusCode))
+	}
+	resp, err = client.Do(req)
 	bodyText, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to read response body: %v", err)
 	}
+	
+	println(string(bodyText))
+
 
 	var results []sourcePackageCve
 	err = json.Unmarshal(bodyText, &results)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to unmarshal response body: %v", err)
 	}
 	return results
 }
 
-func readGardenLinuxVersion(osReleaseFilePath string) string {
+func readGardenLinuxVersion(osReleaseFilePath string) (string, error) {
 	dat, err := os.ReadFile(osReleaseFilePath)
 	if err != nil {
-		log.Fatal(err)
+		return "", fmt.Errorf("failed to read os-release file: %w", err)
 	}
 
 	lines := strings.Split(string(dat), "\n")
 	for _, line := range lines {
 		if strings.HasPrefix(line, "GARDENLINUX_VERSION=") {
-			return strings.Replace(line, "GARDENLINUX_VERSION=", "", 1)
+			return strings.Replace(line, "GARDENLINUX_VERSION=", "", 1), nil
 		}
 	}
-	log.Fatal("Could not parse os-release, failed to identify Garden Linux version.")
-	return ""
+	return "", fmt.Errorf("could not parse os-release, failed to identify Garden Linux version")
 }
 
 func printCves(cves []sourcePackageCve, jsonOutput bool) {
 	if jsonOutput {
 		output, err := json.MarshalIndent(cves, " ", " ")
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("Failed to marshal CVEs to JSON: %v", err)
 		}
 		fmt.Println(string(output))
-	} else {
 		for _, cve := range cves {
 			fmt.Printf("%-18s %4.1f %-46s %-20s %-20s\n", cve.CveId, cve.BaseScore, cve.VectorString, cve.SourcePackageName, cve.SourcePackageVersion)
 		}
@@ -164,19 +170,30 @@ func main() {
 	programName := os.Args[0]
 
 	if len(args) == 0 {
-		fmt.Printf("Usage: %s <command> <args>\nCommands: what-if, check, executive-summary\nArgs: List of source packages for command what-if\n", programName)
+		fmt.Printf("Usage: %s <command> <args>\nCommands:\n  what-if <package1> <package2> ... : Check CVEs for the specified source packages\n  check                            : Check CVEs for all installed packages\n  executive-summary                : Get a summary of potential security issues\n", programName)
 		os.Exit(0)
 	}
 
 	if len(args) >= 1 {
 		command := args[0]
 
-		gardenLinuxVersion := readGardenLinuxVersion(etcOsReleaseFilePath)
+		gardenLinuxVersion, err := readGardenLinuxVersion(etcOsReleaseFilePath)
+		if err != nil {
+			log.Fatalf("Error reading Garden Linux version: %v", err)
+		}
 		var cves []sourcePackageCve
 
 		switch command {
 		case "what-if":
 			packagesToCheck := args[1:]
+			if len(packagesToCheck) == 0 {
+				log.Fatalf("Error: No package names provided for the 'what-if' command")
+			}
+			for _, pkg := range packagesToCheck {
+				if strings.TrimSpace(pkg) == "" {
+					log.Fatalf("Error: Package names must not be empty")
+				}
+			}
 			cves = getCvesForPackageList(packagesToCheck, gardenLinuxVersion)
 			printCves(cves, jsonOutput)
 		case "check":
