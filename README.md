@@ -65,6 +65,16 @@ To run locally with test data:
 GLVD_CLIENT_DEV_MODE=true go run .
 ```
 
+### Configuring the API Base URL
+
+By default, `glvd-client` uses `https://security.gardenlinux.org` as the API endpoint.  
+You can override this by setting the `GLVD_API_BASE_URL` environment variable:
+
+```sh
+export GLVD_API_BASE_URL="http://localhost:8080"
+glvd check
+```
+
 ## Building
 
 This project provides a `Makefile` for common development tasks.

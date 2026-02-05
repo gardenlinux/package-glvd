@@ -6,12 +6,22 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
+func getApiBaseUrl() string {
+	url := os.Getenv("GLVD_API_BASE_URL")
+	if url == "" {
+		url = "https://security.gardenlinux.org"
+	}
+	return url
+}
+
 func getCvesForPackageList(dpkgSourcePackages []string, gardenLinuxVersion string) []sourcePackageCve {
+	apiBaseUrl := getApiBaseUrl()
 	client := &http.Client{}
 	requestPayload, _ := json.Marshal(payload{PackageNames: dpkgSourcePackages})
-	req, err := http.NewRequest("PUT", "https://security.gardenlinux.org/v1/cves/"+gardenLinuxVersion+"/packages?sortBy=cveId&sortOrder=ASC", bytes.NewBuffer(requestPayload))
+	req, err := http.NewRequest("PUT", apiBaseUrl+"/v1/cves/"+gardenLinuxVersion+"/packages?sortBy=cveId&sortOrder=ASC", bytes.NewBuffer(requestPayload))
 	if err != nil {
 		log.Fatal(err)
 	}
