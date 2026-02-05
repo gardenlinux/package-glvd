@@ -1,17 +1,23 @@
+glvd (0.0.3) unstable; urgency=medium
+
+  * Make endpoint configurable, for local testing
+
+  -- Garden Linux <contact@gardenlinux.org>
+
 glvd (0.0.2) unstable; urgency=medium
 
   * Update URL to new live cluster
 
-  -- Garden Linux <contact@gardenlinux.io>
+  -- Garden Linux <contact@gardenlinux.org>
 
 glvd (0.0.1) unstable; urgency=medium
 
   * Document executive-summary command in help text
 
-  -- Garden Linux <contact@gardenlinux.io>
+  -- Garden Linux <contact@gardenlinux.org>
 
 glvd (0.0.0) unstable; urgency=medium
 
   * Initial glvd client
 
-  -- Garden Linux <contact@gardenlinux.io>
+  -- Garden Linux <contact@gardenlinux.org>
