@@ -1,6 +1,10 @@
-# glvd-client
+# package-glvd
 
-`glvd-client` is a command-line tool to query the [Garden Linux Vulnerability Database (GLVD)](https://security.gardenlinux.org/) API for CVEs affecting installed packages on Garden Linux nodes.
+`package-glvd` is a command-line tool for querying the [Garden Linux Vulnerability Database (GLVD)](https://security.gardenlinux.org/) API. It helps you identify CVEs affecting installed packages on Garden Linux nodes or container images.
+
+You can install `package-glvd` in Garden Linux images by enabling the `glvd` feature at build time, or at runtime via `apt` (the package name is `glvd`).
+
+While primarily designed for use on Garden Linux nodes, `package-glvd` also supports a developer mode for local development and testing.
 
 ## Features
 
@@ -67,7 +71,7 @@ GLVD_CLIENT_DEV_MODE=true go run .
 
 ### Configuring the API Base URL
 
-By default, `glvd-client` uses `https://security.gardenlinux.org` as the API endpoint.  
+By default, `package-glvd` uses `https://security.gardenlinux.org` as the API endpoint.  
 You can override this by setting the `GLVD_API_BASE_URL` environment variable:
 
 ```sh
