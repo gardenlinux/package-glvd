@@ -54,7 +54,7 @@ jobs:
 
   run_in_gl:
     runs-on: ubuntu-latest
-    container: ghcr.io/gardenlinux/gardenlinux:1592.1
+    container: ghcr.io/gardenlinux/gardenlinux:1877
     needs:
       - build
     steps:
