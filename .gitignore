@@ -8,7 +8,9 @@
 *.so
 *.dylib
 
-glvd-client
+glvd
+glvd-linux-amd64
+glvd-linux-arm64
 
 # Test binary, built with `go test -c`
 *.test

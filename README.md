@@ -67,10 +67,36 @@ GLVD_CLIENT_DEV_MODE=true go run .
 
 ## Building
 
-Build the client with:
+This project provides a `Makefile` for common development tasks.
+
+### Format the code
 
 ```sh
-go build -o glvd .
+make fmt
+```
+
+### Build the binary for your current platform
+
+```sh
+make build
+```
+
+The output will be a binary named `glvd`.
+
+### Build Linux binaries for amd64 and arm64
+
+```sh
+make build-linux
+```
+
+This will produce:
+- `glvd-linux-amd64`
+- `glvd-linux-arm64`
+
+### Clean build artifacts
+
+```sh
+make clean
 ```
 
 ## License
