@@ -109,6 +109,17 @@ This will produce:
 make clean
 ```
 
+## Release a new version of the client
+
+To release a new version of the client:
+
+1. Edit the `debian/changelog` file and add a new version entry, following the format of previous entries.
+2. Commit your changes and push them to the `main` branch.
+
+This will trigger the pipeline to build and publish the new version automatically.
+
+For reference, see [this example commit](https://github.com/gardenlinux/package-glvd/commit/10209351ca301cdb091ed9fc40dff9a59e7345e3).
+
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
