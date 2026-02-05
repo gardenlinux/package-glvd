@@ -38,7 +38,7 @@ jobs:
     - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
     - run: cat /etc/os-release
     - run: ls -lR
-    - run: chmod +x glvd-client/glvd-linux-amd64
-    - run: ./glvd-client/glvd-linux-amd64 check
-    - run: ./glvd-client/glvd-linux-amd64 what-if frr vim
-    - run: ./glvd-client/glvd-linux-amd64 executive-summary
+    - run: chmod +x glvd-linux-amd64
+    - run: ./glvd-linux-amd64 check
+    - run: ./glvd-linux-amd64 what-if frr vim
+    - run: ./glvd-linux-amd64 executive-summary
