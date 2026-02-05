@@ -1,3 +1,3 @@
-module github.com/gardenlinux/glvd-client
+module github.com/gardenlinux/package-glvd
 
-go 1.21.6
+go 1.24.13
