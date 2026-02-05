@@ -19,38 +19,14 @@ jobs:
         go-version: '1.24'
 
     - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+      run: make build-linux
 
     - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
       with:
         name: glvd-client
-        path: glvd-client
-
-  build_arm:
-    runs-on: ubuntu-latest
-    env:
-      GOARCH: arm64
-    steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-    - name: Set up Go
-      uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
-      with:
-        go-version: '1.24'
-
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
-
-    - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-      with:
-        name: glvd-client-arm
-        path: glvd-client
+        path: |
+          glvd-linux-amd64
+          glvd-linux-arm64
 
   run_in_gl:
     runs-on: ubuntu-latest
@@ -62,7 +38,7 @@ jobs:
     - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
     - run: cat /etc/os-release
     - run: ls -lR
-    - run: chmod +x glvd-client/glvd-client
-    - run: ./glvd-client/glvd-client check
-    - run: ./glvd-client/glvd-client what-if frr vim
-    - run: ./glvd-client/glvd-client executive-summary
+    - run: chmod +x glvd-client/glvd-linux-amd64
+    - run: ./glvd-client/glvd-linux-amd64 check
+    - run: ./glvd-client/glvd-linux-amd64 what-if frr vim
+    - run: ./glvd-client/glvd-linux-amd64 executive-summary
